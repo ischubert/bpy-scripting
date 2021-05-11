@@ -26,10 +26,10 @@ renderImage = True
 doZoom=True
 doZoomOut=False
 
-tPaddingEnd = 250 #number of frames to append after algorithms converged
-tZoomStart = 100
+tPaddingEnd = 25  # number of frames to append after algorithms converged
+tZoomStart = 20
 tZoomOutDuration = 25
-tRotationStart = tZoomStart + 200
+tRotationStart = tZoomStart + 10
 cameraLocation = Vector((-6,-12,+5))
 cameraFocusPoint = Vector((0,0,0))
 
@@ -38,8 +38,12 @@ filename = os.path.basename(os.path.dirname(folder))
 ########################################################
 # Load collada file and preprocess the objects
 ########################################################
-
-rai = RaiLoader(folder)
+anim_filename = "anim_ing.txt"
+collada_filename = "z.dae"
+gripper_name = "finger"
+floor_name = "floor"
+rai = RaiLoader(folder, anim_filename, collada_filename,
+                gripper_name, floor_name)
 rai.generateKeyframesFromAnim(Nsegments, NkeyframeSteps)
 
 setBackgroundColor((.2,.2,.2))
@@ -80,7 +84,7 @@ if renderImage:
   render.LastFrameToPNG(filename = dirname+"/output/"+filename+'.png')
 
 if renderAnimation:
-  render.toMP4(dirname+"/output/"+filename+".mp4")
+  render.ToMP4(dirname+"/output/"+filename+".mp4")
 
 elapsed_time = time.process_time() - time_start_script
 print("TIME for RENDERING: %f (in s), %f (in m), %f (in h)"%\

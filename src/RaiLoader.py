@@ -8,15 +8,20 @@ from src.Utils import *
 
 class RaiLoader():
 
-  def __init__(self, foldername):
+  def __init__(self, foldername, anim_filename="Anim.txt",
+               collada_filename="initial.dae", gripper_name="gripper",
+               floor_name="plate"):
+
+    self.gripper_name = gripper_name
 
     bpy.ops.object.select_all(action='SELECT')
     bpy.ops.object.delete()
 
-    fname = os.path.abspath(foldername + "initial.dae")
-    self.anim = Anim(foldername + "/Anim.txt")
+    fname = os.path.abspath(foldername + collada_filename)
+    self.anim = Anim(foldername + "/" + anim_filename)   # "/Anim.txt"
 
-    c = bpy.ops.wm.collada_import(filepath=fname, import_units=True, auto_connect=False)
+    c = bpy.ops.wm.collada_import(
+        filepath=fname, import_units=True, auto_connect=False)
 
     bpy.ops.object.select_all(action='SELECT')
 
@@ -24,13 +29,14 @@ class RaiLoader():
 
     self.curves = {}
     for obj in objs:
-      if "gripper" in obj.name:
+      if gripper_name in obj.name:
+        print(obj.name)
         curveDynamic = addBezierCurve(obj.name)
         self.curves[obj.name] = curveDynamic
       obj.location = [0,-1000,-1000]
-      if obj.name == "plate":
+      if obj.name == floor_name:
         bpy.context.scene.frame_set(0)
-        obj.location = [0,0,-0.15]
+        obj.location = [0, 0, -0.15]
         obj.rotation_mode = 'QUATERNION'
         obj.rotation_quaternion = [1,0,0,0]
         obj.parent = None
@@ -88,7 +94,7 @@ class RaiLoader():
             else:
               addMaterialColor(obj, color)
 
-            if "gripper" in obj.name:
+            if self.gripper_name in obj.name:
               P = self.curves[obj.name].data.splines[0].points
               addMaterialColor(self.curves[obj.name], color)
               material = self.curves[obj.name].active_material
@@ -117,7 +123,7 @@ class RaiLoader():
                 p.keyframe_insert(data_path="co", index=-1)
 
           ####WEIRD behavior during fadeout
-          if "gripper" in obj.name:
+          if self.gripper_name in obj.name:
             ##add fadeout
             tend = segment.timeEnd
 
