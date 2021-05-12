@@ -63,8 +63,8 @@ class RaiLoader():
           bpy.context.scene.frame_end = segment.timeEnd
 
         print("Import segment %d/%d [time %d,%d] (link %s %d/%d)"\
-            %(ctr,(Nsegments+1 if Nsegments>=0 else len(A.segments)),
-              segment.timeStart,segment.timeEnd, name, n,len(segment.names)))
+              % (ctr, (Nsegments+1 if Nsegments <= 0 else len(A.segments)),
+                 segment.timeStart, segment.timeEnd, name, (n+1), len(segment.names)))
 
         for obj in bpy.context.selected_objects:
           if obj.name != name:
@@ -88,11 +88,12 @@ class RaiLoader():
 
             # pattern = re.compile(r'^(b|node)[0-9]+')
             # if pattern.match(obj.name):
-            if '_' not in obj.name:
-              # print("Add glass material.")
-              addMaterialGlass(obj)
-            else:
-              addMaterialColor(obj, color)
+            # oz: commented out below as we want to use mats/clr as they are set
+            # if '_' not in obj.name:
+            #   # print("Add glass material.")
+            #   addMaterialGlass(obj)
+            # else:
+            addMaterialColor(obj, color)
 
             if self.gripper_name in obj.name:
               P = self.curves[obj.name].data.splines[0].points
