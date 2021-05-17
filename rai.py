@@ -33,7 +33,7 @@ tZoomStart = 20
 tZoomOutDuration = 25
 tRotationStart = 20
 tMoveUpStart = 20
-cameraLocation = Vector((-4, -10, +4.5))
+cameraLocation = Vector((-2.5, -6.25, +5.32))
 cameraFocusPoint = Vector((0,0,0))
 
 _, _, _, _, folder, collada_filename, anim_filename, video_filename = sys.argv
