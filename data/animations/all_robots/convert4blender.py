@@ -2,7 +2,7 @@ import json
 import numpy as np
 
 # def convert_to_anim(in_file, out_file):
-in_file = '116_pcl-noise_animation.txt'
+in_file = '133_pcl-1000-100_ex_0_animation.txt'
 with open(in_file) as json_file:
     data = json.load(json_file)
     num_segments = 1    # always 1 for pushing ??
@@ -33,6 +33,7 @@ with open(in_file) as json_file:
                     # print(c)
                 f_color = "{0}".format(' '.join(map(str, c)))
                 output_str += f"{f_color}\n"
+            output_str += "]\n"
         elif d == 'poses':
             i = 0
             num_pose = len(data[d])
@@ -52,11 +53,20 @@ with open(in_file) as json_file:
 
                 if i == num_pose:
                     print("i: ", i)
+                    output_str += "]\n"
                     break
-                output_str += "\n"  # print empty line btw pose list for each timestep
 
-    # 1 for closing the poses, 1 for closing the animation
-    output_str += "]]"
+                output_str += "\n"  # print empty line btw pose list for each timestep
+        elif d == 'plan':
+            num_plan_steps = len(data[d])
+            # n x 6 (3D: finger + box)
+            output_str += f"{d}: [ <{num_plan_steps} 6>\n"
+            for plan_step in data[d]:
+                finger_box_pos = "{0}".format(' '.join(map(str, plan_step)))
+                output_str += f"{finger_box_pos}\n"
+            output_str += "]"
+
+    output_str += "]"   # close the animation
     # print(output_str)
-    file_anim = open('test.txt', 'w')
+    file_anim = open('test_w_plan.txt', 'w')
     file_anim.write(output_str)

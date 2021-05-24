@@ -41,12 +41,13 @@ filename = os.path.basename(os.path.dirname(folder))
 ########################################################
 # Load collada file and preprocess the objects
 ########################################################
-anim_filename = "test.txt"  # 116_pcl-noise_2_anim
+anim_filename = "test_w_plan.txt"  # 116_pcl-noise_2_anim
 collada_filename = "z.dae"  # oz: always use this (since the task is the same)
 gripper_name = "finger"
 floor_name = "floor"
 rai = RaiLoader(folder, anim_filename, collada_filename,
                 gripper_name, floor_name)
+rai.draw_plan()
 rai.generateKeyframesFromAnim(Nsegments, NkeyframeSteps)
 
 setBackgroundColor((.2,.2,.2))
@@ -70,7 +71,7 @@ if doZoom:
 if doZoomOut:
     camera.zoomOut(tZoomStart+50+50, tZoomStart+50+50+tZoomOutDuration)
 if doRotate:
-    camera.rotate(tRotationStart, tend, hor_speed=0., ver_speed=-0.0002)
+    camera.rotate(tRotationStart, tend, hor_speed=0., ver_speed=-0.001)
 if doMoveUp:
     camera.move_camera(tMoveUpStart, tMoveUpStart+20, axis=2, dist=0.2)
 

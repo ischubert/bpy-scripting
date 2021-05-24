@@ -150,3 +150,43 @@ class RaiLoader():
                 p.co = (cPose[0], cPose[1], cPose[2], 1)
                 p.keyframe_insert(data_path="co")
 
+  def draw_plan(self, plan=None, finger_pos_buffer=[0, 0, +0.5]):
+    if plan is None:
+      plan = self.anim.plan_path
+
+    dirname = os.path.dirname(os.path.realpath(__file__))
+    sys.path.append(dirname)
+    folder = "data/animations/all_robots/"
+    filename = folder + "arrow.dae"
+    arr_scene = bpy.ops.wm.collada_import(filepath=filename, import_units=False, auto_connect=False)
+            
+    scene = bpy.context.scene
+    objects = bpy.data.objects
+
+    arrow_stem_mesh = objects['Arrow_stem'].data
+    arrow_cone_mesh = objects['Arrow_cone'].data
+    arrow_cone_scale = 0.1  # for example..
+
+    plan_segments = []
+    for i in range(len(plan)-1):
+      plan_segments.append([tuple(plan[i+1][0:3]+finger_pos_buffer), tuple(plan[i][0:3]+finger_pos_buffer)])
+
+    for head, tail in plan_segments:
+        v1, v2 = Vector(head), Vector(tail)
+
+        # Scale the Stem, and add to scene
+        obj = bpy.data.objects.new("Arrow_duplicate", arrow_stem_mesh)
+
+        obj.location = v2
+        obj.scale = (arrow_cone_scale, arrow_cone_scale, (v1-v2).length)
+        obj.rotation_mode = 'QUATERNION'
+        obj.rotation_quaternion = (v1-v2).to_track_quat('Z','Y')
+        bpy.context.collection.objects.link(obj)
+
+        # orient Cone, and add to scene
+        obj2 = bpy.data.objects.new("Arrow_duplicate", arrow_cone_mesh)
+        obj2.scale = (arrow_cone_scale, arrow_cone_scale, (v1-v2).length)
+        obj2.location = v1   # start at tail and work back
+        obj2.rotation_mode = 'QUATERNION'
+        obj2.rotation_quaternion = (v1-v2).to_track_quat('Z','Y')
+        bpy.context.collection.objects.link(obj2)
