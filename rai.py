@@ -45,6 +45,7 @@ gripper_name = "finger"
 floor_name = "floor"
 rai = RaiLoader(folder, anim_filename, collada_filename,
                 gripper_name, floor_name)
+rai.draw_plan()
 rai.generateKeyframesFromAnim(Nsegments, NkeyframeSteps)
 
 setBackgroundColor((.2,.2,.2))
@@ -68,7 +69,7 @@ if doZoom:
 if doZoomOut:
     camera.zoomOut(tZoomStart+50+50, tZoomStart+50+50+tZoomOutDuration)
 if doRotate:
-    camera.rotate(tRotationStart, tend, hor_speed=0., ver_speed=-0.0002)
+    camera.rotate(tRotationStart, tend, hor_speed=0., ver_speed=-0.001)
 if doMoveUp:
     camera.move_camera(tMoveUpStart, tMoveUpStart+20, axis=2, dist=0.2)
 
