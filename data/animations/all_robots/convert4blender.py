@@ -32,6 +32,7 @@ def convert_to_anim(in_file, out_file):
                         # print(c)
                     f_color = "{0}".format(' '.join(map(str, c)))
                     output_str += f"{f_color}\n"
+                output_str += "]\n"
             elif d == 'poses':
                 i = 0
                 num_pose = len(data[d])
@@ -49,13 +50,22 @@ def convert_to_anim(in_file, out_file):
                         output_str += f"{f_pose}\n"
                         # print(f"{f_p}")
 
-                    if i == num_pose:
-                        print("i: ", i)
-                        break
-                    output_str += "\n"  # print empty line btw pose list for each timestep
+                if i == num_pose:
+                    print("i: ", i)
+                    output_str += "]\n"
+                    break
 
-        # 1 for closing the poses, 1 for closing the animation
-        output_str += "]]"
-        # print(output_str)
-        file_anim = open(out_file, 'w')
-        file_anim.write(output_str)
+                output_str += "\n"  # print empty line btw pose list for each timestep
+        elif d == 'plan':
+            num_plan_steps = len(data[d])
+            # n x 6 (3D: finger + box)
+            output_str += f"{d}: [ <{num_plan_steps} 6>\n"
+            for plan_step in data[d]:
+                finger_box_pos = "{0}".format(' '.join(map(str, plan_step)))
+                output_str += f"{finger_box_pos}\n"
+            output_str += "]"
+
+    output_str += "]"   # close the animation
+    # print(output_str)
+    file_anim = open(out_file, 'w')
+    file_anim.write(output_str)
