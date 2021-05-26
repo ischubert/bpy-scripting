@@ -152,6 +152,8 @@ class RaiLoader():
 
   def draw_plan(self, plan=None, finger_pos_buffer=[0, 0, +0.5]):
     if plan is None:
+      if self.anim.plan_path is None:
+        return
       plan = self.anim.plan_path
 
     dirname = os.path.dirname(os.path.realpath(__file__))

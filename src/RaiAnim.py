@@ -163,9 +163,12 @@ class Anim():
                 line = f.readline()
                 print(line)
                 if not line:
-                    print("Plan reading error!!!")
+                    print("Error in reading the file!!!")
                     break
                 p = re.match(r'^plan.*<(.*)>', line)
+                if p is None:
+                    print("This is without a PLAN!!!")
+                    break
                 plan_dims = np.fromstring(p.group(1), dtype='int', sep=' ')
                 numPlanSteps = plan_dims[0]
                 numCoordinates = plan_dims[1]
