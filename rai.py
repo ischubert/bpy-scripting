@@ -33,16 +33,14 @@ tZoomStart = 20
 tZoomOutDuration = 25
 tRotationStart = 20
 tMoveUpStart = 20
-cameraLocation = Vector((-4, -10, +4.5))
+cameraLocation = Vector((-2.5, -6.25, +5.32))
 cameraFocusPoint = Vector((0,0,0))
 
-folder = "data/animations/all_robots/"
+_, _, _, _, folder, collada_filename, anim_filename, video_filename = sys.argv
 filename = os.path.basename(os.path.dirname(folder))
 ########################################################
 # Load collada file and preprocess the objects
 ########################################################
-anim_filename = "test_w_plan.txt"  # 116_pcl-noise_2_anim
-collada_filename = "z.dae"  # oz: always use this (since the task is the same)
 gripper_name = "finger"
 floor_name = "floor"
 rai = RaiLoader(folder, anim_filename, collada_filename,
@@ -88,10 +86,10 @@ for area in bpy.context.screen.areas:
 render = RenderEngine(folder)
 
 if renderImage:
-  render.LastFrameToPNG(filename = dirname+"/output/"+filename+'.png')
+  render.LastFrameToPNG(os.path.join(folder, video_filename + ".png"))
 
 if renderAnimation:
-  render.ToMP4(dirname+"/output/"+filename+".mp4")
+  render.ToMP4(os.path.join(folder, video_filename + ".mp4"))
 
 elapsed_time = time.process_time() - time_start_script
 print("TIME for RENDERING: %f (in s), %f (in m), %f (in h)"%\
