@@ -21,7 +21,7 @@ time_start_script = time.process_time()
 Nsegments = 1 #display N segments. -1: display all segments
 NkeyframeSteps = 1  # use every n-th keyframe, interpolate inbetween
 
-renderAnimation = False
+renderAnimation = True
 renderImage = ~renderAnimation
 doZoom = False
 doZoomOut = False
@@ -37,11 +37,11 @@ cameraLocation = Vector((-2.5, -6.25, +5.32))
 cameraFocusPoint = Vector((0,0,0))
 
 print(sys.argv)
-# _, _, _, _, _, folder, collada_filename, anim_filename, video_filename = sys.argv
-folder = "data/animations/all_robots/"
-collada_filename = "z.dae"  # oz: always use this (since the task is the same)
-anim_filename = "133_pcl-1000-100_ex_0_animation_NO_PLAN_converted.txt"  # 116_pcl-noise_2_anim
-video_filename = "test_vid"
+_, _, _, _, _, _, folder, collada_filename, anim_filename, video_filename = sys.argv
+# folder = "data/animations/all_robots/"
+# collada_filename = "z.dae"  # oz: always use this (since the task is the same)
+# anim_filename = "133_pcl-1000-100_ex_0_animation_NO_PLAN_converted.txt"  # 116_pcl-noise_2_anim
+# video_filename = "test_vid"
 print(f"folder: {folder}")
 print(f"collada_filename: {collada_filename}")
 print(f"anim_filename: {anim_filename}")
