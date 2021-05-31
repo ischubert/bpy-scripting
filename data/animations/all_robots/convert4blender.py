@@ -1,9 +1,10 @@
 import json
 import numpy as np
+import sys
 
 def convert_to_anim(in_file, out_file):
-# in_file = '133_pcl-1000-100_ex_0_animation_NO_PLAN.txt'
-# out_file = "133_pcl-1000-100_ex_0_animation_NO_PLAN_converted.txt"
+# in_file = '133_pcl-1000-100_ex_0_animation.txt'
+# out_file = "133_pcl-1000-100_ex_0_animation_converted.txt"
     with open(in_file) as json_file:
         data = json.load(json_file)
         num_segments = 1    # always 1 for pushing ??
@@ -71,3 +72,6 @@ def convert_to_anim(in_file, out_file):
         # print(output_str)
         file_anim = open(out_file, 'w')
         file_anim.write(output_str)
+
+_, in_filename, out_filename = sys.argv
+convert_to_anim(in_filename, out_filename)

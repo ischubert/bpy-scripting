@@ -150,7 +150,7 @@ class RaiLoader():
                 p.co = (cPose[0], cPose[1], cPose[2], 1)
                 p.keyframe_insert(data_path="co")
 
-  def draw_plan(self, plan=None, finger_pos_buffer=[0, 0, +0.5]):
+  def draw_plan(self, folder, plan_arrow_collada, plan=None, finger_pos_buffer=[0, 0, +0.5]):
     if plan is None:
       if self.anim.plan_path is None:
         return
@@ -158,8 +158,8 @@ class RaiLoader():
 
     dirname = os.path.dirname(os.path.realpath(__file__))
     sys.path.append(dirname)
-    folder = "data/animations/all_robots/"
-    filename = folder + "arrow.dae"
+    if folder is None: folder = "data/animations/all_robots"
+    filename = os.path.abspath(os.path.join(folder, plan_arrow_collada))
     arr_scene = bpy.ops.wm.collada_import(filepath=filename, import_units=False, auto_connect=False)
             
     scene = bpy.context.scene

@@ -21,7 +21,7 @@ time_start_script = time.process_time()
 Nsegments = 1 #display N segments. -1: display all segments
 NkeyframeSteps = 1  # use every n-th keyframe, interpolate inbetween
 
-renderAnimation = True
+renderAnimation = False
 renderImage = ~renderAnimation
 doZoom = False
 doZoomOut = False
@@ -36,12 +36,16 @@ tMoveUpStart = 20
 cameraLocation = Vector((-2.5, -6.25, +5.32))
 cameraFocusPoint = Vector((0,0,0))
 
-print(sys.argv)
-_, _, _, _, _, _, folder, collada_filename, anim_filename, video_filename = sys.argv
-# folder = "data/animations/all_robots/"
-# collada_filename = "z.dae"  # oz: always use this (since the task is the same)
-# anim_filename = "133_pcl-1000-100_ex_0_animation_NO_PLAN_converted.txt"  # 116_pcl-noise_2_anim
-# video_filename = "test_vid"
+print(len(sys.argv))
+
+if len(sys.argv) > 5:
+  _, _, _, _, _, _, folder, collada_filename, anim_filename, video_filename = sys.argv
+else:
+  folder = "data/animations/all_robots/"
+  collada_filename = "z.dae"  # oz: always use this (since the task is the same)
+  anim_filename = "133_pcl_w_plan.txt"  # 116_pcl-noise_2_anim
+  video_filename = "test_vid"
+  
 print(f"folder: {folder}")
 print(f"collada_filename: {collada_filename}")
 print(f"anim_filename: {anim_filename}")
@@ -52,9 +56,11 @@ print(f"video_filename: {video_filename}")
 ########################################################
 gripper_name = "finger"
 floor_name = "floor"
+plan_arrow_filename = "arrow.dae"
+
 rai = RaiLoader(folder, anim_filename, collada_filename,
                 gripper_name, floor_name)
-rai.draw_plan()
+rai.draw_plan(folder, plan_arrow_filename)
 rai.generateKeyframesFromAnim(Nsegments, NkeyframeSteps)
 
 setBackgroundColor((.2,.2,.2))
