@@ -22,7 +22,7 @@ class RenderEngine():
     os.system("convert -trim %s %s"%(ff,ff))
     print("Render Image [frame %d] to :%s"%(bpy.context.scene.frame_end,renderEngine.filepath))
 
-  def ToMP4(self, filename):
+  def ToMP4(self, filename, fps=24):
     #### VIDEO (MP4)
     renderEngine = bpy.context.scene.render
     renderEngine.image_settings.file_format = "FFMPEG"
@@ -30,6 +30,7 @@ class RenderEngine():
     renderEngine.ffmpeg.codec = "H264"
     renderEngine.ffmpeg.constant_rate_factor = "HIGH" #MEDIUM, LOW
     renderEngine.filepath = filename
+    renderEngine.fps = fps
     print("Starting to render %d frames."% bpy.context.scene.frame_end)
     bpy.ops.render.render(animation=True)
 

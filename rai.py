@@ -21,8 +21,8 @@ time_start_script = time.process_time()
 Nsegments = 1 #display N segments. -1: display all segments
 NkeyframeSteps = 1  # use every n-th keyframe, interpolate inbetween
 
-renderAnimation = False
-renderImage = ~renderAnimation
+renderAnimation = True
+renderImage = True
 doZoom = False
 doZoomOut = False
 doRotate = True
@@ -36,15 +36,9 @@ tMoveUpStart = 20
 cameraLocation = Vector((-2.5, -6.25, +5.32))
 cameraFocusPoint = Vector((0,0,0))
 
-print(len(sys.argv))
+print(sys.argv)
 
-if len(sys.argv) > 5:
-  _, _, _, _, _, _, folder, collada_filename, anim_filename, video_filename = sys.argv
-else:
-  folder = "data/animations/all_robots/"
-  collada_filename = "z.dae"  # oz: always use this (since the task is the same)
-  anim_filename = "133_pcl_w_plan.txt"  # 116_pcl-noise_2_anim
-  video_filename = "test_vid"
+_, _, _, _, folder, collada_filename, anim_filename, video_filename = sys.argv
   
 print(f"folder: {folder}")
 print(f"collada_filename: {collada_filename}")
@@ -104,7 +98,7 @@ if renderImage:
   render.LastFrameToPNG(os.path.join(folder, video_filename + ".png"))
 
 if renderAnimation:
-  render.ToMP4(os.path.join(folder, video_filename + ".mp4"))
+  render.ToMP4(os.path.join(folder, video_filename + ".mp4"), fps=12)
 
 elapsed_time = time.process_time() - time_start_script
 print("TIME for RENDERING: %f (in s), %f (in m), %f (in h)"%\
